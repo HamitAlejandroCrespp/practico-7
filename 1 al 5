@@ -1,0 +1,50 @@
+#include <iostream>
+#include <cmath> // Para usar pow() en potencias
+using namespace std;
+
+// 1. Calcular la potencia x^y de dos números reales[cite: 1]
+double POTEN(double x, double y) {
+    return pow(x, y); 
+}
+
+// 2. Calcular el factorial de un entero[cite: 1]
+long long FAC(int n) {
+    long long f = 1;
+    for (int i = 1; i <= n; i++) {
+        f = f * i;
+    }
+    return f;
+}
+
+// 3. Suma de la serie: x^1/1! + x^2/2! + ... + x^N/N![cite: 1]
+double SUMA_SERIE_1(double x, int n) {
+    double S = 0;
+    for (int i = 1; i <= n; i++) {
+        S = S + (POTEN(x, i) / FAC(i));
+    }
+    return S;
+}
+
+// 4. Suma de la serie alternada: x^1/1! - x^3/3! + x^5/5! ... +/- x^N/N![cite: 1]
+double SUMA_SERIE_2(double x, int n) {
+    double S = 0;
+    int signo = 1; // 1 para positivo, -1 para negativo
+    for (int i = 1; i <= n; i += 2) { // Avanza de 2 en 2 (impares)
+        S = S + (signo * (POTEN(x, i) / FAC(i)));
+        signo = signo * -1; // Cambia el signo para la siguiente vuelta
+    }
+    return S;
+}
+
+// 5. Sistema de dos ecuaciones (Ax+By+C=0, Dx+Ey+F=0)[cite: 1]
+// Pasamos X y Y con "&" (referencia) para poder modificarlos y devolverlos.
+void SISTEMA(double A, double B, double C, double D, double E, double F, double &X, double &Y) {
+    // Reordenamos a la forma estándar: Ax + By = -C y Dx + Ey = -F
+    double detGeneral = (A * E) - (B * D);
+    if (detGeneral != 0) {
+        X = ((-C * E) - (B * -F)) / detGeneral;
+        Y = ((A * -F) - (-C * D)) / detGeneral;
+    } else {
+        cout << "El sistema no tiene solucion unica." << endl;
+    }
+}
